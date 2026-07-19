@@ -53,7 +53,7 @@ CSV-FILE-ANALYZER
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/CSV-File-Analyzer.git
+git clone https://github.com/AnujrajShrestha/csv_file_analyzer
 
 cd CSV-File-Analyzer
 ```
