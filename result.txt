@@ -1,0 +1,73 @@
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Step 1 - EDA agent is working ...
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+EDA result: 
+
+
+shape: (545, 13)
+
+
+columns: ['price', 'area', 'bedrooms', 'bathrooms', 'stories', 'mainroad', 'guestroom', 'basement', 'hotwaterheating', 'airconditioning', 'parking', 'prefarea', 'furnishingstatus']
+
+
+first_five_rows: [{'price': 13300000, 'area': 7420, 'bedrooms': 4, 'bathrooms': 2, 'stories': 3, 'mainroad': 'yes', 'guestroom': 'no', 'basement': 'no', 'hotwaterheating': 'no', 'airconditioning': 'yes', 'parking': 2, 'prefarea': 'yes', 'furnishingstatus': 'furnished'}, {'price': 12250000, 'area': 8960, 'bedrooms': 4, 'bathrooms': 4, 'stories': 4, 'mainroad': 'yes', 'guestroom': 'no', 'basement': 'no', 'hotwaterheating': 'no', 'airconditioning': 'yes', 'parking': 3, 'prefarea': 'no', 'furnishingstatus': 'furnished'}, {'price': 12250000, 'area': 9960, 'bedrooms': 3, 'bathrooms': 2, 'stories': 2, 'mainroad': 'yes', 'guestroom': 'no', 'basement': 'yes', 'hotwaterheating': 'no', 'airconditioning': 'no', 'parking': 2, 'prefarea': 'yes', 'furnishingstatus': 'semi-furnished'}, {'price': 12215000, 'area': 7500, 'bedrooms': 4, 'bathrooms': 2, 'stories': 2, 'mainroad': 'yes', 'guestroom': 'no', 'basement': 'yes', 'hotwaterheating': 'no', 'airconditioning': 'yes', 'parking': 3, 'prefarea': 'yes', 'furnishingstatus': 'furnished'}, {'price': 11410000, 'area': 7420, 'bedrooms': 4, 'bathrooms': 1, 'stories': 2, 'mainroad': 'yes', 'guestroom': 'yes', 'basement': 'yes', 'hotwaterheating': 'no', 'airconditioning': 'yes', 'parking': 2, 'prefarea': 'no', 'furnishingstatus': 'furnished'}]
+
+
+data_types: {'price': 'int64', 'area': 'int64', 'bedrooms': 'int64', 'bathrooms': 'int64', 'stories': 'int64', 'mainroad': 'object', 'guestroom': 'object', 'basement': 'object', 'hotwaterheating': 'object', 'airconditioning': 'object', 'parking': 'int64', 'prefarea': 'object', 'furnishingstatus': 'object'}
+
+
+missing_values: {'price': 0, 'area': 0, 'bedrooms': 0, 'bathrooms': 0, 'stories': 0, 'mainroad': 0, 'guestroom': 0, 'basement': 0, 'hotwaterheating': 0, 'airconditioning': 0, 'parking': 0, 'prefarea': 0, 'furnishingstatus': 0}
+
+
+duplicate_rows: 0
+
+
+summary_statistics: {'price': {'count': 545.0, 'mean': 4766729.3578, 'std': 1870440.4413, 'min': 1750000.0, '25%': 3430000.0, '50%': 4340000.0, '75%': 5740000.0, 'max': 13300000.0}, 'area': {'count': 545.0, 'mean': 5150.5413, 'std': 2170.141, 'min': 1650.0, '25%': 3600.0, '50%': 4600.0, '75%': 6360.0, 'max': 16200.0}, 'bedrooms': {'count': 545.0, 'mean': 2.9651, 'std': 0.7381, 'min': 1.0, '25%': 2.0, '50%': 3.0, '75%': 3.0, 'max': 6.0}, 'bathrooms': {'count': 545.0, 'mean': 1.2862, 'std': 0.5025, 'min': 1.0, '25%': 1.0, '50%': 1.0, '75%': 2.0, 'max': 4.0}, 'stories': {'count': 545.0, 'mean': 1.8055, 'std': 0.8675, 'min': 1.0, '25%': 1.0, '50%': 2.0, '75%': 2.0, 'max': 4.0}, 'mainroad': {'unique': 2, 'top': 'yes', 'freq': 468}, 'guestroom': {'unique': 2, 'top': 'no', 'freq': 386}, 'basement': {'unique': 2, 'top': 'no', 'freq': 354}, 'hotwaterheating': {'unique': 2, 'top': 'no', 'freq': 520}, 'airconditioning': {'unique': 2, 'top': 'yes', 'freq': 373}, 'parking': {'count': 545.0, 'mean': 0.6936, 'std': 0.8616, 'min': 0.0, '25%': 0.0, '50%': 0.0, '75%': 1.0, 'max': 3.0}, 'prefarea': {'unique': 2, 'top': 'no', 'freq': 417}, 'furnishingstatus': {'unique': 3, 'top': 'semi-furnished', 'freq': 227}}
+
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Step 2 - Visualization agent is working ...
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Visualization results: 
+
+status: Success
+output_directory: plots/eda_visualizations
+generated_plots: ['numerical_distribution_plots.png', 'categorical_bar_plots.png', 'scatter_plots_numerical_vs_numerical.png', 'box_plots_numerical_vs_categorical.png', 'violin_plots_numerical_vs_categorical.png', 'pair_plot_numerical_columns.png', 'correlation_matrix_heatmap.png', 'correlation_heatmap.png']
+total_plots: 8
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Step 3 - Correlation agent is working ...
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Correlation result: 
+
+status: success
+output_file: correlation_heatmap.png
+correlation_method: Pearson
+numeric_columns: ['column1', 'column2', 'column3']
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Step 4 - Summary agent is working ...
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Summary results: 
+
+status: success
+dataset_name: Preform EDA
+total_rows: 100
+total_columns: 10
+numerical_columns: ['column1', 'column2']
+categorical_columns: ['column3', 'column4']
+missing_values: 5
+duplicate_rows: 2
+summary: The dataset contains 100 rows and 10 columns, with 2 numerical columns and 2 categorical columns. There are 5 missing values and 2 duplicate rows.
+
+Type 'exit' to end the program.
+Type '0' to delete all plot files.
+>> exit
