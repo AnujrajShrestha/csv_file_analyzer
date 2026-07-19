@@ -7,12 +7,43 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from pydantic import BaseModel,Field
-from typing import List
+from typing import List,Any,Dict
 
 CSV_PATH = "Housing.csv"
 
+class EDA_format(BaseModel):
+    """Structured EDA report."""
+
+    shape: str = Field(
+        description="Dataset shape in the format '(rows, columns)'."
+    )
+
+    columns: List[str] = Field(
+        description="List of all column names."
+    )
+
+    first_five_rows: List[Dict[str, Any]] = Field(
+        description="First five rows of the dataset."
+    )
+
+    data_types: Dict[str, str] = Field(
+        description="Dictionary mapping each column to its data type."
+    )
+
+    missing_values: Dict[str, int] = Field(
+        description="Missing value count for each column."
+    )
+
+    duplicate_rows: int = Field(
+        description="Number of duplicate rows."
+    )
+
+    summary_statistics: Dict[str, Dict[str, Any]] = Field(
+        description="Statistical summary for each column."
+    )
+
 @tool
-def EDA_tool(query: str) -> str:
+def EDA_tool(query: str) -> EDA_format:
     """
     Performs Exploratory Data Analysis on the uploaded CSV.
     """

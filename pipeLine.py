@@ -91,13 +91,11 @@ if __name__ == "__main__":
                 if file.is_file():
                     file.unlink()
 
-            print("All plot files deleted successfully.")
-            print("Program exited")   
+            print("All plot files deleted successfully.")  
             
         else:
-            print("'plots' folder does not exist.")
-            print("Program exited")   
-            
+            print("'plots' folder does not exist.")   
+        print("Program exited")  
                 
     elif inp.lower =="exit":
         print("Program exited")   
