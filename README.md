@@ -17,22 +17,7 @@ Delete generated plots from terminal
 Project Structure
 CSV-FILE-ANALYZER/
 │
-├── plots/
-│   ├── airconditioning.png
-│   ├── area.png
-│   ├── basement.png
-│   ├── bathrooms.png
-│   ├── bedrooms.png
-│   ├── correlation.png
-│   ├── furnishingstatus.png
-│   ├── guestroom.png
-│   ├── hotwaterheating.png
-│   ├── mainroad.png
-│   ├── parking.png
-│   ├── prefarea.png
-│   ├── price.png
-│   └── stories.png
-│
+├── plots
 ├── tools.py
 ├── agents.py
 ├── pipeline.py
@@ -40,6 +25,8 @@ CSV-FILE-ANALYZER/
 ├── requirements.txt
 ├── .env
 └── README.md
+
+
 Architecture
                 User Query
                      │
@@ -71,7 +58,7 @@ Installation
 
 Clone the repository
 
-git clone https://github.com/yourusername/csv-file-analyzer.git
+git clone https://github.com/AnujrajShrestha/csv_file_analyzer
 
 cd csv-file-analyzer
 
