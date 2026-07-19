@@ -13,8 +13,6 @@ tiktoken
 
 python-dotenv
 
-streamlit
-
 pydantic
 
 rich
@@ -23,3 +21,4 @@ numpy
 pandas
 matplotlib
 seaborn
+streamlit
