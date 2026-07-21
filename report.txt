@@ -1,0 +1,44 @@
+
+------------------------------------------------------------
+Step 1 - EDA Agent
+
+------------------------------------------------------------
+shape: (300, 16)
+columns: ['Car_ID', 'Brand', 'Manufacture_Year', 'Body_Type', 'Fuel_Type', 'Transmission', 'Engine_CC', 'Horsepower', 'Mileage_km_per_l', 'Price_USD', 'Manufacturing_Country', 'Car_Age', 'Price_Category', 'HP_per_CC', 'Age_Category', 'Efficiency_Score']
+first_five_rows: [{'Car_ID': 'CAR_0001', 'Brand': 'Mercedes', 'Manufacture_Year': 2006, 'Body_Type': 'SUV', 'Fuel_Type': 'Petrol', 'Transmission': 'Automatic', 'Engine_CC': 3000, 'Horsepower': 400, 'Mileage_km_per_l': 7, 'Price_USD': 25000, 'Manufacturing_Country': 'Germany', 'Car_Age': 20, 'Price_Category': 'Premium', 'HP_per_CC': 0.1338, 'Age_Category': 'Old', 'Efficiency_Score': 0.35}, {'Car_ID': 'CAR_0002', 'Brand': 'Nissan', 'Manufacture_Year': 2023, 'Body_Type': 'Coupe', 'Fuel_Type': 'Petrol', 'Transmission': 'Automatic', 'Engine_CC': 2000, 'Horsepower': 72, 'Mileage_km_per_l': 15, 'Price_USD': 35000, 'Manufacturing_Country': 'Japan', 'Car_Age': 3, 'Price_Category': 'Premium', 'HP_per_CC': 0.0362, 'Age_Category': 'New', 'Efficiency_Score': 0.75}, {'Car_ID': 'CAR_0003', 'Brand': 'Nissan', 'Manufacture_Year': 2007, 'Body_Type': 'Hatchback', 'Fuel_Type': 'Diesel', 'Transmission': 'Manual', 'Engine_CC': 1600, 'Horsepower': 98, 'Mileage_km_per_l': 6, 'Price_USD': 12000, 'Manufacturing_Country': 'Japan', 'Car_Age': 19, 'Price_Category': 'Premium', 'HP_per_CC': 0.061, 'Age_Category': 'Old', 'Efficiency_Score': 0.3}, {'Car_ID': 'CAR_0004', 'Brand': 'Nissan', 'Manufacture_Year': 2013, 'Body_Type': 'Coupe', 'Fuel_Type': 'Petrol', 'Transmission': 'Automatic', 'Engine_CC': 1200, 'Horsepower': 244, 'Mileage_km_per_l': 6, 'Price_USD': 18000, 'Manufacturing_Country': 'Japan', 'Car_Age': 13, 'Price_Category': 'Mid-Range', 'HP_per_CC': 0.2033, 'Age_Category': 'Old', 'Efficiency_Score': 0.3}, {'Car_ID': 'CAR_0005', 'Brand': 'Hyundai', 'Manufacture_Year': 2009, 'Body_Type': 'Hatchback', 'Fuel_Type': 'Hybrid', 'Transmission': 'Automatic', 'Engine_CC': 1600, 'Horsepower': 100, 'Mileage_km_per_l': 18, 'Price_USD': 15000, 'Manufacturing_Country': 'South Korea', 'Car_Age': 17, 'Price_Category': 'Premium', 'HP_per_CC': 0.0622, 'Age_Category': 'Old', 'Efficiency_Score': 0.9}]
+data_types: {'Car_ID': 'object', 'Brand': 'object', 'Manufacture_Year': 'int64', 'Body_Type': 'object', 'Fuel_Type': 'object', 'Transmission': 'object', 'Engine_CC': 'int64', 'Horsepower': 'int64', 'Mileage_km_per_l': 'int64', 'Price_USD': 'int64', 'Manufacturing_Country': 'object', 'Car_Age': 'int64', 'Price_Category': 'object', 'HP_per_CC': 'float64', 'Age_Category': 'object', 'Efficiency_Score': 'float64'}
+missing_values: {'Car_ID': 0, 'Brand': 0, 'Manufacture_Year': 0, 'Body_Type': 0, 'Fuel_Type': 0, 'Transmission': 0, 'Engine_CC': 0, 'Horsepower': 0, 'Mileage_km_per_l': 0, 'Price_USD': 0, 'Manufacturing_Country': 0, 'Car_Age': 0, 'Price_Category': 0, 'HP_per_CC': 0, 'Age_Category': 0, 'Efficiency_Score': 0}
+duplicate_rows: 0
+summary_statistics: {'Car_ID': {'count': 300, 'unique': 300, 'top': 'CAR_0300', 'freq': 1}, 'Brand': {'count': 300, 'unique': 10, 'top': 'Nissan', 'freq': 41}, 'Manufacture_Year': {'count': 300, 'mean': 2015.123333, 'std': 5.966023, 'min': 2005, '25%': 2010, '50%': 2015, '75%': 2020, 'max': 2025}, 'Body_Type': {'count': 300, 'unique': 5, 'top': 'Sedan', 'freq': 70}, 'Fuel_Type': {'count': 300, 'unique': 4, 'top': 'Petrol', 'freq': 77}, 'Transmission': {'count': 300, 'unique': 2, 'top': 'Automatic', 'freq': 200}, 'Engine_CC': {'count': 300, 'mean': 1998.333333, 'std': 738.330281, 'min': 800, '25%': 1200, '50%': 2000, '75%': 2500, 'max': 4000}, 'Horsepower': {'count': 300, 'mean': 189.66, 'std': 100.323128, 'min': 50, '25%': 100, '50%': 200, '75%': 250, 'max': 400}, 'Mileage_km_per_l': {'count': 300, 'mean': 12.12, 'std': 5.983333, 'min': 3, '25%': 7, '50%': 12, '75%': 16, 'max': 25}, 'Price_USD': {'count': 300, 'mean': 24999.996667, 'std': 14432.87673, 'min': 5000, '25%': 12000, '50%': 25000, '75%': 35000, 'max': 60000}, 'Manufacturing_Country': {'count': 300, 'unique': 5, 'top': 'Japan', 'freq': 120}, 'Car_Age': {'count': 300, 'mean': 10.876667, 'std': 5.966023, 'min': 1, '25%': 6, '50%': 11, '75%': 16, 'max': 21}, 'Price_Category': {'count': 300, 'unique': 4, 'top': 'Budget', 'freq': 78}, 'HP_per_CC': {'count': 300, 'mean': 0.129559, 'std': 0.093239, 'min': 0.0178, '25%': 0.06325, '50%': 0.10685, '75%': 0.168325, 'max': 0.5255}, 'Age_Category': {'count': 300, 'unique': 4, 'top': 'Old', 'freq': 126}, 'Efficiency_Score': {'count': 300, 'mean': 0.485833, 'std': 0.301403, 'min': 0, '25%': 0.25, '50%': 0.475, '75%': 0.7, 'max': 1}}
+
+------------------------------------------------------------
+Step 2 - Visualization Agent
+
+------------------------------------------------------------
+status: Success
+output_directory: plots/EDA_Visualizations
+generated_plots: ['numerical_histograms.png', 'numerical_boxplots.png', 'categorical_bar_charts.png', 'scatter_plots_numerical_vs_numerical.png', 'boxplots_numerical_vs_categorical.png', 'bar_charts_categorical_vs_numerical.png', 'correlation_heatmap.png']
+total_plots: 7
+
+------------------------------------------------------------
+Step 3 - Correlation Agent
+
+------------------------------------------------------------
+status: Success
+output_file: correlation_heatmap.png
+correlation_method: Pearson
+numeric_columns: ['column1', 'column2', 'column3']
+
+------------------------------------------------------------
+Step 4 - Summary Agent
+
+------------------------------------------------------------
+status: success
+dataset_name: example_dataset
+total_rows: 1000
+total_columns: 10
+numerical_columns: ['column1', 'column2']
+categorical_columns: ['column3', 'column4']
+missing_values: 50
+duplicate_rows: 20
+summary: The dataset contains 1000 rows and 10 columns, with 2 numerical columns and 2 categorical columns. There are 50 missing values and 20 duplicate rows.

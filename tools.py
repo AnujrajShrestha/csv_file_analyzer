@@ -9,7 +9,7 @@ import seaborn as sns
 from pydantic import BaseModel,Field
 from typing import List,Any,Dict
 
-CSV_PATH = ""
+CSV_PATH = "global_cars_enhanced.csv"
 
 class EDA_format(BaseModel):
     """Structured EDA report."""

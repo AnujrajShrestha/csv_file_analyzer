@@ -4,6 +4,42 @@ from pathlib import Path
 
 embedding_model = MistralAIEmbeddings(model="mistral-embed")
 
+def create_report(state: dict):
+
+    separator = "\n" + "-" * 60 + "\n"
+
+    with open("report.txt", "w", encoding="utf-8") as fs:
+
+        fs.write(separator)
+        fs.write("Step 1 - EDA Agent\n")
+        fs.write(separator)
+
+        for key, value in state["eda_result"].model_dump().items():
+            fs.write(f"{key}: {value}\n")
+
+        fs.write(separator)
+        fs.write("Step 2 - Visualization Agent\n")
+        fs.write(separator)
+
+        for key, value in state["visual_result"].model_dump().items():
+            fs.write(f"{key}: {value}\n")
+
+        fs.write(separator)
+        fs.write("Step 3 - Correlation Agent\n")
+        fs.write(separator)
+
+        for key, value in state["corr_result"].model_dump().items():
+            fs.write(f"{key}: {value}\n")
+
+        fs.write(separator)
+        fs.write("Step 4 - Summary Agent\n")
+        fs.write(separator)
+
+        for key, value in state["summary_result"].model_dump().items():
+            fs.write(f"{key}: {value}\n")
+
+    return "report.txt"
+
 def run_pipeline(query: str) -> dict:
     state={}
     
@@ -66,13 +102,15 @@ def run_pipeline(query: str) -> dict:
     summary_result= summary_agent.invoke({
         'messages':[{
             'role':'user',
-            'content': f"perform correlation process of {query}"}]
+            'content': f"perform csummary process of {query}"}]
     })
     
     state['summary_result']= summary_result['structured_response']
     print("\nSummary results: \n")
     for key, value in state['summary_result'].model_dump().items():
        print(f"{key}: {value}")
+    
+    create_report(state)
     
     return state
 
@@ -97,6 +135,6 @@ if __name__ == "__main__":
             print("'plots' folder does not exist.")   
         print("Program exited")  
                 
-    elif inp.lower =="exit":
+    elif inp.lower() =="exit":
         print("Program exited")   
     
