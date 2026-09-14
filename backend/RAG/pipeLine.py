@@ -1,4 +1,4 @@
-from agents import build_eda_agent,build_visualization_agent,build_correaltion_agent,build_summary_agent
+from agents_builders import build_eda_agent,build_visualization_agent,build_correaltion_agent,build_summary_agent
 from create_report import create_report
 from langchain_mistralai import MistralAIEmbeddings
 from pathlib import Path

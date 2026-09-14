@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_mistralai import ChatMistralAI
-from langchain_groq import ChatGroq
 
 from tools import EDA_tool,visualization_tool,correlation_tool,summary_tool,VisualizationOutput,CorrelationOutput,SummaryOutput,EDA_format
 
@@ -12,8 +11,8 @@ llm_mistral= ChatMistralAI(
     temperature=0
 )
 
-llm_groq= ChatGroq(
-    model="llama-3.3-70b-versatile",
+llm_mistral_small= ChatMistralAI(
+    model="mistral-small-latest",
     temperature=0,
 )
     
@@ -34,14 +33,14 @@ def build_visualization_agent():
 
 def build_correaltion_agent():
     return create_agent(
-        model= llm_groq,
+        model= llm_mistral_small,
         tools= [correlation_tool],
         response_format= CorrelationOutput
     )
 
 def build_summary_agent():
     return create_agent(
-        model=llm_groq,
+        model=llm_mistral_small,
         tools= [summary_tool],
         response_format= SummaryOutput
     )
