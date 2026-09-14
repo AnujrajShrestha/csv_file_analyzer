@@ -6,19 +6,14 @@ from tools import EDA_tool,visualization_tool,correlation_tool,summary_tool,Visu
 
 load_dotenv()
 
-llm_mistral= ChatMistralAI(
+llm = ChatMistralAI(
     model="mistral-large-latest",
-    temperature=0
-)
-
-llm_mistral_small= ChatMistralAI(
-    model="mistral-small-latest",
     temperature=0,
 )
     
 def build_eda_agent():
     return create_agent(
-        model= llm_mistral,
+        model= llm,
         tools=[EDA_tool],
         response_format=EDA_format,
     )
@@ -26,21 +21,21 @@ def build_eda_agent():
 
 def build_visualization_agent():
     return create_agent(
-        model= llm_mistral,
+        model= llm,
         tools= [visualization_tool],
         response_format= VisualizationOutput
     )
 
 def build_correaltion_agent():
     return create_agent(
-        model= llm_mistral_small,
+        model= llm,
         tools= [correlation_tool],
         response_format= CorrelationOutput
     )
 
 def build_summary_agent():
     return create_agent(
-        model=llm_mistral_small,
+        model=llm,
         tools= [summary_tool],
         response_format= SummaryOutput
     )
