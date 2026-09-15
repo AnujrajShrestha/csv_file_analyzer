@@ -10,7 +10,7 @@ import seaborn as sns
 
 from pydantic import BaseModel, Field
 from typing import List, Any, Dict
-import data
+from RAG import data
 
 # =========================================================
 # EDA

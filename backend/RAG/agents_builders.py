@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 import os
-from tools import EDA_tool,visualization_tool,correlation_tool,summary_tool
+from .tools import EDA_tool,visualization_tool,correlation_tool,summary_tool
 from langchain_groq import ChatGroq
 
 load_dotenv()

@@ -1,10 +1,9 @@
-from agents_builders import build_analysis_agent
-from create_report import create_report
+from .agents_builders import build_analysis_agent
+from .create_report import create_report
 from pathlib import Path
-from data import load_data
+from .data import load_data
 
-file_path=r'C:\Users\anujs\Desktop\Anuj\csv_file-analyzer\backend\RAG\uploads\global_cars_enhanced.csv'
-
+file_path=''
 def run_pipeline(file) -> dict:
     print("Loading CSV...")
 
