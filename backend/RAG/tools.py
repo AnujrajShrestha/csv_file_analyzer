@@ -1,15 +1,20 @@
 from langchain.tools import tool
-import pandas as pd
 
+import pandas as pd
 import matplotlib
+
 matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from pydantic import BaseModel,Field
-from typing import List,Any,Dict
+from pydantic import BaseModel, Field
+from typing import List, Any, Dict
+from data import csv_data,csv_path
 
-CSV_PATH = "global_cars_enhanced.csv"
+# =========================================================
+# EDA
+# =========================================================
 
 class EDA_format(BaseModel):
     """Structured EDA report."""
@@ -42,38 +47,52 @@ class EDA_format(BaseModel):
         description="Statistical summary for each column."
     )
 
+
 @tool
 def EDA_tool(query: str) -> EDA_format:
-    """
-    Performs Exploratory Data Analysis on the uploaded CSV.
-    """
+    """Performs Exploratory Data Analysis on the uploaded CSV."""
 
-    df = pd.read_csv(CSV_PATH)
+    if csv_data is None:
+        raise ValueError("CSV data has not been loaded.")
+
+    df = csv_data
 
     result = f"""
 Shape:
+
 {df.shape}
 
 Columns:
+
 {list(df.columns)}
 
 First Five Rows:
+
 {df.head()}
 
 Data Types:
+
 {df.dtypes}
 
 Missing Values:
+
 {df.isnull().sum()}
 
 Duplicate Rows:
+
 {df.duplicated().sum()}
 
 Summary Statistics:
+
 {df.describe(include='all')}
-    """
+"""
 
     return result
+
+
+# =========================================================
+# VISUALIZATION
+# =========================================================
 
 class VisualizationOutput(BaseModel):
     """Structured output for the visualization tool."""
@@ -93,17 +112,21 @@ class VisualizationOutput(BaseModel):
     total_plots: int = Field(
         description="Total number of plots generated."
     )
-    
+
 
 @tool
 def visualization_tool(query: str) -> VisualizationOutput:
-    """
-    Creates visualizations for every column.
-    """
+    """Creates visualizations for every column."""
 
-    df = pd.read_csv(CSV_PATH)
+    if csv_data is None:
+        raise ValueError("CSV data has not been loaded.")
+
+    df = csv_data
 
     generated_plots = []
+
+    from pathlib import Path
+    Path("plots").mkdir(exist_ok=True)
 
     for column in df.columns:
 
@@ -118,6 +141,7 @@ def visualization_tool(query: str) -> VisualizationOutput:
         plt.tight_layout()
 
         filename = f"{column}.png"
+
         plt.savefig(f"plots/{filename}")
 
         generated_plots.append(filename)
@@ -130,6 +154,11 @@ def visualization_tool(query: str) -> VisualizationOutput:
         generated_plots=generated_plots,
         total_plots=len(generated_plots)
     )
+
+
+# =========================================================
+# CORRELATION
+# =========================================================
 
 class CorrelationOutput(BaseModel):
     """Structured output for the correlation analysis tool."""
@@ -150,17 +179,19 @@ class CorrelationOutput(BaseModel):
         description="List of numerical columns included in the correlation analysis."
     )
 
+
 @tool
 def correlation_tool(query: str) -> CorrelationOutput:
-    """
-    Generates a correlation heatmap for numerical columns.
-    """
+    """Generates a correlation heatmap for numerical columns."""
+
+    if csv_data is None:
+        raise ValueError("CSV data has not been loaded.")
 
     from pathlib import Path
 
     Path("plots").mkdir(exist_ok=True)
 
-    df = pd.read_csv(CSV_PATH)
+    df = csv_data
 
     numeric_df = df.select_dtypes(include="number")
 
@@ -175,7 +206,9 @@ def correlation_tool(query: str) -> CorrelationOutput:
     plt.tight_layout()
 
     output_path = "plots/correlation.png"
+
     plt.savefig(output_path)
+
     plt.close()
 
     return CorrelationOutput(
@@ -184,7 +217,12 @@ def correlation_tool(query: str) -> CorrelationOutput:
         correlation_method="Pearson",
         numeric_columns=numeric_df.columns.tolist()
     )
-    
+
+
+# =========================================================
+# SUMMARY
+# =========================================================
+
 class SummaryOutput(BaseModel):
     """Structured dataset summary."""
 
@@ -227,29 +265,47 @@ class SummaryOutput(BaseModel):
 
 @tool
 def summary_tool(query: str) -> SummaryOutput:
-    """
-    Generates a concise summary of the dataset.
-    """
+    """Generates a concise summary of the dataset."""
 
-    df = pd.read_csv(CSV_PATH)
+    if csv_data is None:
+        raise ValueError("CSV data has not been loaded.")
 
-    numerical_cols = df.select_dtypes(include="number").columns.tolist()
-    categorical_cols = df.select_dtypes(exclude="number").columns.tolist()
+    df = csv_data
 
-    total_missing = int(df.isnull().sum().sum())
-    duplicate_rows = int(df.duplicated().sum())
+    numerical_cols = (
+        df.select_dtypes(include="number")
+        .columns
+        .tolist()
+    )
+
+    categorical_cols = (
+        df.select_dtypes(exclude="number")
+        .columns
+        .tolist()
+    )
+
+    total_missing = int(
+        df.isnull().sum().sum()
+    )
+
+    duplicate_rows = int(
+        df.duplicated().sum()
+    )
 
     summary_text = (
-        f"The dataset contains {df.shape[0]} rows and {df.shape[1]} columns. "
-        f"It has {len(numerical_cols)} numerical columns and "
-        f"{len(categorical_cols)} categorical columns. "
+        f"The dataset contains {df.shape[0]} rows and "
+        f"{df.shape[1]} columns. "
+
+        f"It has {len(numerical_cols)} numerical columns "
+        f"and {len(categorical_cols)} categorical columns. "
+
         f"There are {total_missing} missing values and "
         f"{duplicate_rows} duplicate rows."
     )
 
     return SummaryOutput(
         status="Success",
-        dataset_name=CSV_PATH,
+        dataset_name=csv_path,
         total_rows=df.shape[0],
         total_columns=df.shape[1],
         numerical_columns=numerical_cols,

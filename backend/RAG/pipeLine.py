@@ -1,86 +1,39 @@
-from agents_builders import build_eda_agent,build_visualization_agent,build_correaltion_agent,build_summary_agent
+from agents_builders import build_analysis_agent
 from create_report import create_report
-from langchain_mistralai import MistralAIEmbeddings
 from pathlib import Path
+from data import load_data
 
-embedding_model = MistralAIEmbeddings(model="mistral-embed")
+file_path=r'C:\Users\anujs\Desktop\Anuj\csv_file-analyzer\backend\RAG\uploads\global_cars_enhanced.csv'
 
-def run_pipeline(query: str) -> dict:
+def run_pipeline(file) -> dict:
+    print("Loading CSV...")
+
+    csv_data = load_data(file)
     state={}
     
     print("\n"+" -"*50)
-    print("Step 1 - EDA agent is working ...")
+    print("Analysis agent is working ...")
     print("\n"+" -"*50)
     
-    #EDA agent
-    eda_agent= build_eda_agent()
-    eda_result= eda_agent.invoke({
-        'messages':[{
-            'role':'user',
-            'content': f"perform EDA process of {query}"
+    #analysis agent
+    analysis_agent= build_analysis_agent()
+    analysis_result = analysis_agent.invoke({
+        "messages": [{
+        "role": "user",
+        "content": "Perform EDA on the loaded CSV dataset."
         }]
     })
-    state['eda_result']= eda_result['structured_response']
-    print("\nEDA result: \n")
-    for name, value in state["eda_result"].model_dump().items():
+    state['analysis_result']= analysis_result['structured_response']
+    print("\nAnalysis result: \n")
+    for name, value in state["analysis_result"].model_dump().items():
        print(f"\n{name}: {value}\n")
        
-    print("\n"+" -"*50)
-    print("Step 2 - Visualization agent is working ...")
-    print("\n"+" -"*50)
-    
-    # Visualization agent
-    visual_agent= build_visualization_agent()
-    visual_result= visual_agent.invoke({
-        'messages':[{
-            'role':'user',
-            'content': f"perform visualization process of {query}"
-        }]
-    })
-    state['visual_result']= visual_result['structured_response']
-    print("\nVisualization results: \n")
-    for key, value in state["visual_result"].model_dump().items():
-       print(f"{key}: {value}")
-       
-    print("\n"+" -"*50)
-    print("Step 3 - Correlation agent is working ...")
-    print("\n"+" -"*50)
-    
-    # Correlation agent
-    corr_agent= build_correaltion_agent()
-    corr_result= corr_agent.invoke({
-        'messages':[{
-            'role':'user',
-            'content': f"perform correlation process of {query}"}]
-    })
-    state['corr_result']= corr_result['structured_response']
-    print("\nCorrelation result: \n")
-    for key, value in state["corr_result"].model_dump().items():
-       print(f"{key}: {value}")
-    
-    print("\n"+" -"*50)
-    print("Step 4 - Summary agent is working ...")
-    print("\n"+" -"*50)
-       
-    #summary agent
-    summary_agent= build_summary_agent()
-    summary_result= summary_agent.invoke({
-        'messages':[{
-            'role':'user',
-            'content': f"perform csummary process of {query}"}]
-    })
-    
-    state['summary_result']= summary_result['structured_response']
-    print("\nSummary results: \n")
-    for key, value in state['summary_result'].model_dump().items():
-       print(f"{key}: {value}")
-    
     create_report(state)
     
     return state
 
 if __name__ == "__main__":
-    run_pipeline("Preform EDA,Visualition and correaltion process")
+    run_pipeline(file_path)
     print("\nType 'exit' to end the program.")
     print("Type '0' to delete all plot files.")
 
