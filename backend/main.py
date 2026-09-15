@@ -1,8 +1,12 @@
 from fastapi import FastAPI,HTTPException,UploadFile,File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from pathlib import Path
+from dotenv import load_dotenv
 
 from RAG.pipeLine import run_pipeline
+
+load_dotenv()
 
 app= FastAPI()
 
@@ -19,10 +23,11 @@ app.add_middleware(
 )
 
 class modelResponse(BaseModel):
-    query: str
+    status: str
+    analysis: object
     
 @app.post("/analyze",response_model= modelResponse)
-def analyze_file(file: UploadFile= File(...)):
+async def analyze_file(file: UploadFile= File(...)):
     try:
         if not file.filename.endswith('.csv'):
             raise HTTPException(
@@ -30,19 +35,21 @@ def analyze_file(file: UploadFile= File(...)):
                 detail="Only CSV files are allowed"
             )
         
-        contents= await file.read()
-        file_path= f'RAG/uploads/{file.filename}'
-        with open(file_path,'wb') as fs:
+        upload_dir = Path("RAG/uploads")
+        upload_dir.mkdir(parents=True, exist_ok=True)
+
+        # Save uploaded file
+        file_path = upload_dir / file.filename
+
+        contents = await file.read()
+
+        with open(file_path, "wb") as fs:
             fs.write(contents)
-            
         result=  run_pipeline(file_path)
         
         return {
             "status": "success",
-            "eda": result["eda_result"],
-            "visualization": result["visual_result"],
-            "correlation": result["corr_result"],
-            "summary": result['summary_result']
+            "analysis": result['analysis_result']
         }
     except Exception as e:
         raise HTTPException(
