@@ -8,7 +8,7 @@ file_path=r'C:\Users\anujs\Desktop\Anuj\csv_file-analyzer\backend\RAG\uploads\gl
 def run_pipeline(file) -> dict:
     print("Loading CSV...")
 
-    csv_data = load_data(file)
+    load_data(file)
     state={}
     
     print("\n"+" -"*50)
@@ -17,16 +17,28 @@ def run_pipeline(file) -> dict:
     
     #analysis agent
     analysis_agent= build_analysis_agent()
-    analysis_result = analysis_agent.invoke({
-        "messages": [{
-        "role": "user",
-        "content": "Perform EDA on the loaded CSV dataset."
-        }]
+    result = analysis_agent.invoke({
+        "messages": [
+            {
+                "role": "user",
+                "content": """
+                Analyze the uploaded CSV dataset.
+
+                You must:
+                1. Run EDA_tool
+                2. Run visualization_tool
+                3. Run correlation_tool
+                4. Run summary_tool
+                """
+            }
+        ]
     })
-    state['analysis_result']= analysis_result['structured_response']
+    state['analysis_result']= result['messages']
     print("\nAnalysis result: \n")
-    for name, value in state["analysis_result"].model_dump().items():
-       print(f"\n{name}: {value}\n")
+    for message in result["messages"]:
+        print(type(message).__name__)
+        print(message.content)
+        print("-" * 50)
        
     create_report(state)
     

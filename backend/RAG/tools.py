@@ -10,7 +10,7 @@ import seaborn as sns
 
 from pydantic import BaseModel, Field
 from typing import List, Any, Dict
-from data import csv_data,csv_path
+import data
 
 # =========================================================
 # EDA
@@ -52,42 +52,28 @@ class EDA_format(BaseModel):
 def EDA_tool(query: str) -> EDA_format:
     """Performs Exploratory Data Analysis on the uploaded CSV."""
 
-    if csv_data is None:
+    if data.csv_data is None:
         raise ValueError("CSV data has not been loaded.")
 
-    df = csv_data
+    df = data.csv_data
 
-    result = f"""
-Shape:
-
-{df.shape}
-
-Columns:
-
-{list(df.columns)}
-
-First Five Rows:
-
-{df.head()}
-
-Data Types:
-
-{df.dtypes}
-
-Missing Values:
-
-{df.isnull().sum()}
-
-Duplicate Rows:
-
-{df.duplicated().sum()}
-
-Summary Statistics:
-
-{df.describe(include='all')}
-"""
-
-    return result
+    return EDA_format(
+        shape=str(df.shape),
+        columns=df.columns.tolist(),
+        first_five_rows=df.head().to_dict(orient="records"),
+        data_types={
+            column: str(dtype)
+            for column, dtype in df.dtypes.items()
+        },
+        missing_values={
+            column: int(value)
+            for column, value in df.isnull().sum().items()
+        },
+        duplicate_rows=int(df.duplicated().sum()),
+        summary_statistics=df.describe(
+            include="all"
+        ).fillna("").to_dict()
+    )
 
 
 # =========================================================
@@ -118,10 +104,10 @@ class VisualizationOutput(BaseModel):
 def visualization_tool(query: str) -> VisualizationOutput:
     """Creates visualizations for every column."""
 
-    if csv_data is None:
+    if data.csv_data is None:
         raise ValueError("CSV data has not been loaded.")
 
-    df = csv_data
+    df = data.csv_data
 
     generated_plots = []
 
@@ -184,14 +170,14 @@ class CorrelationOutput(BaseModel):
 def correlation_tool(query: str) -> CorrelationOutput:
     """Generates a correlation heatmap for numerical columns."""
 
-    if csv_data is None:
+    if data.csv_data is None:
         raise ValueError("CSV data has not been loaded.")
 
     from pathlib import Path
 
     Path("plots").mkdir(exist_ok=True)
 
-    df = csv_data
+    df = data.csv_data
 
     numeric_df = df.select_dtypes(include="number")
 
@@ -267,10 +253,10 @@ class SummaryOutput(BaseModel):
 def summary_tool(query: str) -> SummaryOutput:
     """Generates a concise summary of the dataset."""
 
-    if csv_data is None:
+    if data.csv_data is None:
         raise ValueError("CSV data has not been loaded.")
 
-    df = csv_data
+    df = data.csv_data
 
     numerical_cols = (
         df.select_dtypes(include="number")
@@ -305,7 +291,7 @@ def summary_tool(query: str) -> SummaryOutput:
 
     return SummaryOutput(
         status="Success",
-        dataset_name=csv_path,
+        dataset_name=data.csv_path,
         total_rows=df.shape[0],
         total_columns=df.shape[1],
         numerical_columns=numerical_cols,
